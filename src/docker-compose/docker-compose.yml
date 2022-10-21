@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    container_name: my-postgres-host
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=my-secret-password
+    ports:
+      - '5432:5432'
+    networks:
+      - growthdays
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: my-pgadmin-host
+    environment:
+      PGADMIN_DEFAULT_EMAIL: mauricio.araya@praxent.com
+      PGADMIN_DEFAULT_PASSWORD: HelloWorld
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "8080:80"
+    networks:
+      - growthdays
+
+  webapi:
+    container_name: my-web-api
+    image: containerplayground/webapi:latest
+    environment:
+      DB_USER: postgres
+      DB_HOST: my-postgres-host
+      DB_NAME: user_db
+      DB_PASSWORD: my-secret-password
+    ports:
+      - "3000:3000"
+    networks:
+      - growthdays
+networks:
+  growthdays:

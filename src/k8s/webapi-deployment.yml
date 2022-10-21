@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    service: webapi
+  name: webapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: webapi
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: webapi
+    spec:
+      containers:
+        - env:
+            - name: DB_HOST
+              value: my-postgres-host
+            - name: DB_NAME
+              value: user_db
+            - name: DB_PASSWORD
+              value: my-secret-password
+            - name: DB_USER
+              value: postgres
+          image: containerplayground/webapi:latest
+          name: my-web-api
+          ports:
+            - containerPort: 3000
+          resources: {}
+      restartPolicy: Always
+status: {}

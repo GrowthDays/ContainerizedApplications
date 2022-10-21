@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    service: pgadmin
+  name: pgadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: pgadmin
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: pgadmin
+    spec:
+      containers:
+        - env:
+            - name: PGADMIN_CONFIG_SERVER_MODE
+              value: "False"
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: mauricio.araya@praxent.com
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: HelloWorld
+          image: dpage/pgadmin4
+          name: my-pgadmin-host
+          ports:
+            - containerPort: 80
+          resources: {}
+      restartPolicy: Always
+status: {}
